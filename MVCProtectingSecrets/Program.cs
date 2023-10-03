@@ -1,8 +1,10 @@
 using Azure.Core;
 using Azure.Identity;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVCProtectingSecrets.Data;
+using MVCProtectingSecrets.Initializers;
 
 namespace MVCProtectingSecrets;
 public class Program
@@ -51,9 +53,8 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddApplicationInsightsTelemetry();
-        /* TODO: Inject TelemetryInitializer when ready
         builder.Services.AddSingleton<ITelemetryInitializer, LogSanitizerInsightsInitializer>(); 
-        */
+        
 
         var app = builder.Build();
         // Configure the HTTP request pipeline.

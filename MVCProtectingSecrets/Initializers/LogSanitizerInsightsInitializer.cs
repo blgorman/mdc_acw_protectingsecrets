@@ -23,8 +23,8 @@ namespace MVCProtectingSecrets.Initializers
         {
             // Sanitize email addresses
             msg = SanitizeEmail(msg);
-            //msg = SanitizeConnectionStringDetails(msg);
-            //msg = SanitizeSASToken(msg);
+            msg = SanitizeConnectionStringDetails(msg);
+            msg = SanitizeSASToken(msg);
 
             //return sanitized string
             return msg;
