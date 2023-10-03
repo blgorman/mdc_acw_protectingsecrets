@@ -1,3 +1,5 @@
+using Azure.Core;
+using Azure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVCProtectingSecrets.Data;
@@ -9,7 +11,6 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        /* TODO: remove comments when ready to demonstrate App Configuration
         //authorize app configuration
         builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
         {
@@ -37,7 +38,7 @@ public class Program
                                 .ConfigureKeyVault(kv => { kv.SetCredential(credential); }));
             }
         });
-        */
+        
 
         // Add services to the container.
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
