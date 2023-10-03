@@ -9,6 +9,36 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        /* TODO: remove comments when ready to demonstrate App Configuration
+        //authorize app configuration
+        builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
+        {
+            var settings = config.Build();
+
+            ////by default, use the default credential:
+            TokenCredential credential = new DefaultAzureCredential();
+            var env = settings["Application:Environment"];
+
+            //without keyvault:
+            if (env == null || !env.Trim().Equals("develop", StringComparison.OrdinalIgnoreCase))
+            {
+                //if at azure, use ManagedIdentityCredential and AppConfiguration URI endpoint
+                credential = new ManagedIdentityCredential();
+
+                config.AddAzureAppConfiguration(options =>
+                    options.Connect(new Uri(settings["AzureAppConfigConnection"]), credential)
+                        .ConfigureKeyVault(kv => { kv.SetCredential(credential); }));
+            }
+            else
+            {
+                //from local app, use connection string
+                config.AddAzureAppConfiguration(options =>
+                        options.Connect(settings["AzureAppConfigConnection"])
+                                .ConfigureKeyVault(kv => { kv.SetCredential(credential); }));
+            }
+        });
+        */
+
         // Add services to the container.
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -20,6 +50,9 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddApplicationInsightsTelemetry();
+        /* TODO: Inject TelemetryInitializer when ready
+        builder.Services.AddSingleton<ITelemetryInitializer, LogSanitizerInsightsInitializer>(); 
+        */
 
         var app = builder.Build();
         // Configure the HTTP request pipeline.
